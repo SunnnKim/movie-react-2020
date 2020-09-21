@@ -1,66 +1,109 @@
-import React from 'react';
-import Proptypes from 'prop-types';
+import React, { StrictMode } from 'react';
+import PropTypes from 'prop-types';
 
-function Food({data}){
-  return <div>
-  <div>
-      <h2>I like {data.name}</h2>
-      <img src={data.image} alt={data.name}></img>
-    </div>
-</div>
-}
 
-// rendering 함수 만들기
-function renderFood(dish){
-  console.log(dish)
-  return <Food key={dish.id} data={dish}></Food>
+// class component
+class Apps extends React.Component {
+  // state를 가지고 있는 component
 
-}
+  // class 를 사용하는 이유
+  state = {
+    // data that will change
+    count: 0,
+  };
+  // add function
+  add = () => {
+    this.setState({ count: this.state.count - 1 });
+  };
+  // 직접적으로 this.state.이름 이런 식으로 불러오는 방법은 비추
+  // current 인자값을 복사하는 함수를 사용할 수 있따.
+  minus = () => {
+    this.setState( current => ({ count: current.count - 1}));
+  };
+  // setState() 사용하는 이유
+  // 리액트에서 setState로 상태를 변경하지 않으면 리액트에서 랜더링을 하지 않기 때문에 값이 갱신되지 않는다
+  // setState를 할 때마다 리액트에서는 리랜더링을 한다
+  
 
-// 리스트를 동적으로 생성하기
-const foodILike= [
-  {
-    id:1,
-    name: "Kimchi",
-    image:
-      "http://aeriskitchen.com/wp-content/uploads/2008/09/kimchi_bokkeumbap_02-.jpg"
-      , rating : 5
-  },
-  {
-    id: 2,
-    name: "Samgyeopsal",
-    image:
-      "https://3.bp.blogspot.com/-hKwIBxIVcQw/WfsewX3fhJI/AAAAAAAAALk/yHxnxFXcfx4ZKSfHS_RQNKjw3bAC03AnACLcBGAs/s400/DSC07624.jpg"
-  },
-  {
-    id: 3,
-    name: "Bibimbap",
-    image:
-      "http://cdn-image.myrecipes.com/sites/default/files/styles/4_3_horizontal_-_1200x900/public/image/recipes/ck/12/03/bibimbop-ck-x.jpg?itok=RoXlp6Xb"
-    , rating:4.3
-    },
-  {
-    id: 4,
-    name: "Doncasu",
-    image:
-      "https://s3-media3.fl.yelpcdn.com/bphoto/7F9eTTQ_yxaWIRytAu5feA/ls.jpg"
-    ,rating:3.3
-  },
-  {
-    id: 5,
-    name: "Kimbap",
-    image:
-      "http://cdn2.koreanbapsang.com/wp-content/uploads/2012/05/DSC_1238r-e1454170512295.jpg"
-    , rating : 4.7
+  // function이 아니라서 return이 없음
+  render() {
+    // React.Component를 상속받앗기 떄문에 안에 메소드가 있음
+    // React의 Component는 자동적으로 Render메소드를 실행함
+    const {count} = this.state
+    return (
+      <div>
+        <h1>The number is {this.state.count}</h1>
+        <button
+          onClick={() => {
+            this.setState(current => ({ count: current.count + 1 }));
+          }}
+        >
+          Add 
+        </button>
+        <button onClick={this.minus}>Minus</button>
+      </div>
+    );
   }
-];
-
-function App() {
-  return (
-    <div className="App">
-      {foodILike.map(renderFood)} 
-    </div>
-  );
 }
 
-export default App;
+class App extends React.Component {
+	
+	state = {
+		types : [ 
+			{ name : "kim", grade : "A+"},
+			{ name : "Lee", grade : "C"},
+			{ name : "Park", grade : "B0"}
+		],
+		name : "Math"
+	}
+
+	render(){
+		return (
+			this.state.types.map(function(data){
+				return <Child key={data.name} name={data.name} grade={data.grade}/>
+			})
+		)
+	}
+}
+class Child extends React.Component {
+  state = {}
+  constructor(props){
+    super(props);
+    this.state = props;
+  }
+  
+  render(){
+    // if(this.state.grade === "A+"){
+    //   this.setState({name : this.state.name + " : A+"})
+    // }
+
+    return(
+    <div>{this.props.name}</div>
+    )
+  }
+
+}
+
+class Appss extends React.Component {
+  
+  state = {
+    count : 0
+  }
+
+  handlerCountUp = () =>{
+    this.setState(current => {
+      console.log(current)
+        return {count : current.count}}
+      );
+  };
+
+  render() {
+    return (
+      <div>
+        <h1>{this.state.count}</h1>
+        <button onClick={alert('hi')}> Click it </button>
+      </div>
+    );
+  }
+}
+export default Appss;
