@@ -78,7 +78,7 @@ class Child extends React.Component {
     // }
 
     return(
-    <div>{this.props.name}</div>
+      <div>{this.props.name}</div>
     )
   }
 
@@ -92,16 +92,16 @@ class Appss extends React.Component {
 
   handlerCountUp = () =>{
     this.setState(current => {
-      console.log(current)
-        return {count : current.count}}
+        return {count : current.count + 1}}
       );
   };
 
   render() {
+
     return (
       <div>
         <h1>{this.state.count}</h1>
-        <button onClick={alert('hi')}> Click it </button>
+        <button onClick={this.handlerCountUp}>Count Up</button>
       </div>
     );
   }
